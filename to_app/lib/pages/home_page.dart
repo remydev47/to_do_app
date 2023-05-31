@@ -16,8 +16,6 @@ class _HomepageState extends State<Homepage> {
   List toDoList = [
     ["Make Tutorial", false],
     ["WorkOut", false],
-    ["Meditation", false],
-    ["Implement App", false]
   ];
   //checkBox was tapped
 
@@ -25,14 +23,15 @@ class _HomepageState extends State<Homepage> {
     setState(() {
       toDoList[index][1] = !toDoList[index][1];
     });
-    Navigator.of(context).pop();
   }
 
   //save task
   void saveNewTask() {
     setState(() {
       toDoList.add([_controller.text, false]);
+      _controller.clear();
     });
+    Navigator.of(context).pop();
   }
 
   //create New task
@@ -46,6 +45,13 @@ class _HomepageState extends State<Homepage> {
             onCancel: () => Navigator.of(context).pop(),
           );
         });
+  }
+
+  //delete task
+  void deleteTask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
   }
 
   @override
@@ -67,6 +73,7 @@ class _HomepageState extends State<Homepage> {
             taskName: toDoList[index][0],
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask,
           );
         },
       ),
